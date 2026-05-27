@@ -421,23 +421,101 @@
             const dd = String(loop.getDate()).padStart(2, '0');
             const tglKey = `${yyyy}-${mm}-${dd}`;
             
+<script>
+    window.onload = function() {
+        // 1. Cek apakah ada simpanan Gaji Pokok
+        if(localStorage.getItem('gajiPokokBoyolali')) {
+            document.getElementById('gajiPokok').value = localStorage.getItem('gajiPokokBoyolali');
+        }
+
+        // 2. Cek apakah ada simpanan tanggal Mulai dan Akhir di localStorage
+        const simpananTglMulai = localStorage.getItem('tglMulaiBoyolali');
+        const simpananTglAkhir = localStorage.getItem('tglAkhirBoyolali');
+
+        if (simpananTglMulai && simpananTglAkhir) {
+            // Jika ada, gunakan tanggal yang disimpan sebelumnya
+            document.getElementById('tglMulai').value = simpananTglMulai;
+            document.getElementById('tglAkhir').value = simpananTglAkhir;
+        } else {
+            // Jika tidak ada (pertama kali buka), buat tanggal default (26 bulan lalu s.d 25 bulan ini)
+            const hariIni = new Date();
+            let tahun = hariIni.getFullYear();
+            let bulan = hariIni.getMonth();
+
+            let blnMulai = bulan - 1;
+            let thnMulai = tahun;
+            if(blnMulai < 0) { blnMulai = 11; thnMulai--; }
+
+            const tglMulaiDefault = `${thnMulai}-${String(blnMulai+1).padStart(2, '0')}-26`;
+            const tglAkhirDefault = `${tahun}-${String(bulan+1).padStart(2, '0')}-25`;
+
+            document.getElementById('tglMulai').value = tglMulaiDefault;
+            document.getElementById('tglAkhir').value = tglAkhirDefault;
+            
+            // Simpan default ini ke localStorage
+            localStorage.setItem('tglMulaiBoyolali', tglMulaiDefault);
+            localStorage.setItem('tglAkhirBoyolali', tglAkhirDefault);
+        }
+
+        generateTabelTanggal();
+    };
+
+    function updateUpahDanHitung() {
+        const gaji = parseFloat(document.getElementById('gajiPokok').value) || 0;
+        localStorage.setItem('gajiPokokBoyolali', gaji);
+        
+        const upahPerJam = Math.round(gaji / 173);
+        document.getElementById('upahPerJamText').innerText = "Rp " + upahPerJam.toLocaleString('id-ID');
+        
+        hitungTotalLembur();
+    }
+
+    function generateTabelTanggal() {
+        const tglMulaiStr = document.getElementById('tglMulai').value;
+        const tglAkhirStr = document.getElementById('tglAkhir').value;
+
+        if(!tglMulaiStr || !tglAkhirStr) return;
+
+        // Simpan tanggal yang sedang aktif dipilih ke localStorage agar tidak hilang saat refresh
+        localStorage.setItem('tglMulaiBoyolali', tglMulaiStr);
+        localStorage.setItem('tglAkhirBoyolali', tglAkhirStr);
+
+        const start = new Date(tglMulaiStr);
+        const end = new Date(tglAkhirStr);
+        const tbody = document.getElementById('tabelBody');
+        tbody.innerHTML = "";
+
+        const namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+        const bulanSingkat = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+
+        let loop = new Date(start);
+        while (loop <= end) {
+            const yyyy = loop.getFullYear();
+            const mm = String(loop.getMonth() + 1).padStart(2, '0');
+            const dd = String(loop.getDate()).padStart(2, '0');
+            const tglKey = `${yyyy}-${mm}-${dd}`;
+            
             const tampilanTanggal = `${loop.getDate()} ${bulanSingkat[loop.getMonth()]}`;
             const hariStr = namaHari[loop.getDay()];
             
-            const apakahAkhirPekan = (loop.getDay() === 0 || loop.getDay() === 6);
-
             const jamLama = localStorage.getItem('jam_' + tglKey) || 0;
 
             let statusCentang = '';
-            if (apakahAkhirPekan) {
-                statusCentang = 'checked';
-                localStorage.setItem('libur_' + tglKey, 'true');
+            const simpananLibur = localStorage.getItem('libur_' + tglKey);
+
+            if (simpananLibur !== null) {
+                statusCentang = (simpananLibur === 'true') ? 'checked' : '';
             } else {
-                statusCentang = '';
-                localStorage.setItem('libur_' + tglKey, 'false');
+                const apakahAkhirPekan = (loop.getDay() === 0 || loop.getDay() === 6);
+                if (apakahAkhirPekan) {
+                    statusCentang = 'checked';
+                    localStorage.setItem('libur_' + tglKey, 'true');
+                } else {
+                    statusCentang = '';
+                    localStorage.setItem('libur_' + tglKey, 'false');
+                }
             }
 
-            // DITAMBAHKAN: onfocus (menghilangkan 0 saat diklik) dan onblur (mengembalikan ke 0 jika kosong)
             let row = `<tr>
                 <td>${tampilanTanggal}</td>
                 <td>${hariStr}</td>
@@ -541,5 +619,6 @@
         reader.readAsText(file);
     }
 </script>
+
 </body>
 </html>
