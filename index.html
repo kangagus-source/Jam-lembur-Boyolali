@@ -213,8 +213,8 @@
     </div>
 
     <div class="footer-actions">
+        <button class="btn-action" onclick="resetSemuaData()" style="color: #e74c3c;">⚠️ Clear Memori</button>
         <button class="btn-action">📥 Cadangkan (.txt)</button>
-        <button class="btn-action">📤 Pulihkan Data</button>
     </div>
 
     <div class="total-box" id="total-lembur-box">
@@ -223,11 +223,26 @@
 </div>
 
 <script>
-    // Jalankan otomatis saat halaman pertama kali dibuka
-    window.addEventListener('DOMContentLoaded', generateTable);
+    // Jalankan otomatis saat halaman pertama kali dibuka (Ambil data lama jika ada)
+    window.addEventListener('DOMContentLoaded', muatDataAwal);
     
     // Jalankan saat tombol refresh diklik
-    document.getElementById('btn-refresh').addEventListener('click', generateTable);
+    document.getElementById('btn-refresh').addEventListener('click', function() {
+        generateTable();
+    });
+
+    // Fungsi membaca data simpanan saat awal masuk aplikasi
+    function muatDataAwal() {
+        const savedStart = localStorage.getItem('savedStartDate');
+        const savedEnd = localStorage.getItem('savedEndDate');
+        
+        if (savedStart && savedEnd) {
+            document.getElementById('start-date').value = savedStart;
+            document.getElementById('end-date').value = savedEnd;
+        }
+        // Langsung tampilkan tabelnya
+        generateTable();
+    }
 
     function generateTable() {
         const startDateInput = document.getElementById('start-date').value;
@@ -250,9 +265,17 @@
             return;
         }
 
+        // SIMPAN RENTANG TANGGAL PILIHAN USER KE STORAGE
+        localStorage.setItem('savedStartDate', startDateInput);
+        localStorage.setItem('savedEndDate', endDateInput);
+
         const opsiHari = { weekday: 'long' };
+
+        // AMBIL DATA JAM LEMBUR & CENTANG LIBUR DARI STORAGE
+        const dataLemburTersimpan = JSON.parse(localStorage.getItem('dataLembur')) || {};
+        const dataLiburTersimpan = JSON.parse(localStorage.getItem('dataLibur')) || {};
         
-                // Loop tanggal
+        // Loop tanggal
         while (start <= end) {
             const namaHari = start.toLocaleDateString('id-ID', opsiHari);
             const isSabtuMinggu = (namaHari === 'Sabtu' || namaHari === 'Minggu');
@@ -263,24 +286,58 @@
             const thn = start.getFullYear();
             const formatTglTampil = `${tgl}/${bln}/${thn}`;
 
+            // Tarik nilai lama atau berikan nilai kosong/default kalender jika belum pernah diisi
+            const nilaiJam = dataLemburTersimpan[formatTglTampil] !== undefined ? dataLemburTersimpan[formatTglTampil] : '';
+            const statusLibur = dataLiburTersimpan[formatTglTampil] !== undefined ? dataLiburTersimpan[formatTglTampil] : isSabtuMinggu;
+
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${formatTglTampil}</td>
                 <td>${namaHari}</td>
                 <td>
-                    <input type="number" step="0.5" min="0" class="input-jam" placeholder="0" oninput="hitungTotalLembur()">
+                    <input type="number" step="0.5" min="0" class="input-jam" placeholder="0" 
+                           value="${nilaiJam}" 
+                           data-tanggal="${formatTglTampil}" 
+                           oninput="simpanJamKeStorage(this)">
                 </td>
                 <td>
-                    <input type="checkbox" class="check-libur" ${isSabtuMinggu ? 'checked' : ''} onchange="hitungTotalLembur()">
+                    <input type="checkbox" class="check-libur" 
+                           ${statusLibur ? 'checked' : ''} 
+                           data-tanggal="${formatTglTampil}" 
+                           onchange="simpanLiburKeStorage(this)">
                 </td>
             `;
             tableBody.appendChild(row);
 
             // Maju ke hari berikutnya
-            start.setDate(start.getDate() + 1)
+            start.setDate(start.getDate() + 1);
         }
         
         // Reset hitungan awal
+        hitungTotalLembur();
+    }
+
+    // FUNGSI SIMPAN SETIAP KALI ANGKA JAM DIKETIK
+    function simpanJamKeStorage(inputElement) {
+        const tgl = inputElement.getAttribute('data-tanggal');
+        const nilai = inputElement.value; // simpan string kosong jika dihapus bersih
+
+        let dataLemburTersimpan = JSON.parse(localStorage.getItem('dataLembur')) || {};
+        dataLemburTersimpan[tgl] = nilai;
+        localStorage.setItem('dataLembur', JSON.stringify(dataLemburTersimpan));
+
+        hitungTotalLembur();
+    }
+
+    // FUNGSI SIMPAN SETIAP KALI CEKBOX DI-KLIK
+    function simpanLiburKeStorage(checkboxElement) {
+        const tgl = checkboxElement.getAttribute('data-tanggal');
+        const status = checkboxElement.checked;
+
+        let dataLiburTersimpan = JSON.parse(localStorage.getItem('dataLibur')) || {};
+        dataLiburTersimpan[tgl] = status;
+        localStorage.setItem('dataLibur', JSON.stringify(dataLiburTersimpan));
+
         hitungTotalLembur();
     }
 
@@ -323,8 +380,18 @@
         // Tampilkan hasil akhir dengan format mata uang rupiah
         document.getElementById('total-lembur-box').innerText = `Total Uang Lembur: Rp ${Math.round(totalUangLembur).toLocaleString('id-ID')}`;
     }
+
+    // FUNGSI TAMBAHAN UNTUK CLEAR DATA BULAN SEBELUMNYA
+    function resetSemuaData() {
+        if(confirm("Apakah Anda ingin membersihkan seluruh data lembur yang tersimpan untuk memulai bulan baru?")) {
+            localStorage.clear();
+            // Kembalikan ke default UI Anda
+            document.getElementById('start-date').value = "2026-05-26";
+            document.getElementById('end-date').value = "2026-06-25";
+            generateTable();
+        }
+    }
 </script>
 
 </body>
 </html>
-
