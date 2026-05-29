@@ -401,25 +401,86 @@
     }
 
     function generateTabelTanggal() {
-        const tglMulaiStr = document.getElementById('tglMulai').value;
-        const tglAkhirStr = document.getElementById('tglAkhir').value;
+    const tglMulaiStr = document.getElementById('tglMulai').value;
+    const tglAkhirStr = document.getElementById('tglAkhir').value;
 
-        if(!tglMulaiStr || !tglAkhirStr) return;
+    if (!tglMulaiStr || !tglAkhirStr) return;
 
-        const start = new Date(tglMulaiStr);
-        const end = new Date(tglAkhirStr);
-        const tbody = document.getElementById('tabelBody');
-        tbody.innerHTML = "";
+    // Simpan tanggal yang sedang aktif dipilih ke localStorage agar tidak hilang saat refresh
+    localStorage.setItem('tglMulaiBoyolali', tglMulaiStr);
+    localStorage.setItem('tglAkhirBoyolali', tglAkhirStr);
 
-        const namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-        const bulanSingkat = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+    const start = new Date(tglMulaiStr);
+    const end = new Date(tglAkhirStr);
+    const tbody = document.getElementById('tabelBody');
+    tbody.innerHTML = "";
 
-        let loop = new Date(start);
-        while (loop <= end) {
-            const yyyy = loop.getFullYear();
-            const mm = String(loop.getMonth() + 1).padStart(2, '0');
-            const dd = String(loop.getDate()).padStart(2, '0');
-            const tglKey = `${yyyy}-${mm}-${dd}`;
+    const namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+    const bulanSingkat = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+
+    let loop = new Date(start);
+    while (loop <= end) {
+        const yyyy = loop.getFullYear();
+        const mm = String(loop.getMonth() + 1).padStart(2, '0');
+        const dd = String(loop.getDate()).padStart(2, '0');
+        const tglKey = `${yyyy}-${mm}-${dd}`;
+
+        const tampilanTanggal = `${loop.getDate()} ${bulanSingkat[loop.getMonth()]}`;
+        const hariStr = namaHari[loop.getDay()];
+
+        // Cek apakah hari Sabtu (6) atau Minggu (0)
+        const apakahAkhirPekan = (loop.getDay() === 0 || loop.getDay() === 6);
+        
+        // Mengambil data jam lama dari localStorage
+        const jamLama = localStorage.getItem('jam_' + tglKey) || 0;
+        
+        // Logika penentuan status checkbox libur berdasarkan data simpanan atau akhir pekan
+        let statusCentang = "";
+        const simpananLibur = localStorage.getItem('libur_' + tglKey);
+        
+        if (simpananLibur !== null) {
+            statusCentang = (simpananLibur === "true") ? "checked" : "";
+        } else {
+            if (apakahAkhirPekan) {
+                statusCentang = "checked";
+                localStorage.setItem('libur_' + tglKey, "true");
+            } else {
+                statusCentang = "";
+            }
+        }
+
+        // Buat element baris baru
+        const row = document.createElement('tr');
+        
+        // Gabungkan ke HTML dengan template literals
+        row.innerHTML = `
+            <td>${tampilanTanggal}</td>
+            <td>${hariStr}</td>
+            <td>
+                <input type="number" step="0.5" min="0" placeholder="0" class="input-jam" data-date="${tglKey}" value="${jamLama > 0 ? jamLama : ''}" oninput="hitungTotalLembur()">
+            </td>
+            <td>
+                <input type="checkbox" class="cek-libur" data-date="${tglKey}" ${statusCentang} onchange="hitungTotalLembur()">
+            </td>
+        `;
+
+        // Jika hari libur/akhir pekan, beri kelas tambahan untuk styling warna (jika diperlukan)
+        if (apakahAkhirPekan) {
+            row.classList.add('weekend');
+        }
+
+        tbody.appendChild(row);
+
+        // --- SOLUSI CRITICAL: Pindah ke tanggal berikutnya agar tidak stuck/freeze ---
+        loop.setDate(loop.getDate() + 1);
+    }
+
+    // Hitung ulang total lemburan setelah tabel dirender
+    if (typeof hitungTotalLembur === "function") {
+        hitungTotalLembur();
+    }
+}
+
             
 <script>
     window.onload = function() {
