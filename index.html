@@ -3,683 +3,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaji Lembur Boyolali</title>
+    <title>Gaji Lembur Boyolali by : Kang Agus</title>
     <style>
-        :root {
-            --primary-green: #4c642c;
-            --secondary-brown: #7c5c43;
-            --bg-cream: #fbf9f4;
-            --card-bg: #f7f5ee;
-            --text-dark: #2c2a29;
-            --border-color: #e5e2d9;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
-
         body {
-            background-color: var(--bg-cream);
-            color: var(--text-dark);
-            padding: 8px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f5f0;
+            margin: 0;
+            padding: 10px;
             display: flex;
             justify-content: center;
         }
-
         .container {
             width: 100%;
             max-width: 480px;
             background: #ffffff;
-            border-radius: 24px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            padding-bottom: 140px; /* Ditambah agar tidak tertutup dua baris tombol di bawah */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
-
-        /* Header Utama */
-        .header-banner {
-            background-color: var(--primary-green);
+        .header {
+            background-color: #4b6033;
             color: white;
-            padding: 20px 16px;
+            padding: 20px;
         }
-
-        .header-title {
-            display: flex;
-            align-items: center;
-            font-size: 1.25rem;
-            font-weight: 700;
-            gap: 8px;
-            margin-bottom: 12px;
+        .header h2 {
+            margin: 0 0 10px 0;
+            font-size: 20px;
         }
-
-        .header-title svg {
-            width: 24px;
-            height: 24px;
-            fill: #c2d1b2;
-        }
-
         .btn-pdf {
-            background-color: var(--secondary-brown);
+            background-color: #7d5a44;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-        }
-
-        /* Ringkasan Gaji & UMK */
-        .info-card {
-            background-color: var(--card-bg);
-            margin: 16px;
-            padding: 16px;
-            border-radius: 20px;
-            border-left: 5px solid var(--primary-green);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .info-item label {
-            display: block;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #8c887e;
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-
-        .info-item .value {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-
-        /* Form Input */
-        .form-section {
-            padding: 0 16px;
-        }
-
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #7c786e;
-            margin-bottom: 4px;
-        }
-
-        input[type="number"], input[type="date"] {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid var(--border-color);
+            padding: 6px 12px;
             border-radius: 12px;
-            font-size: 0.95rem;
-            color: var(--text-dark);
-            outline: none;
-            background: #ffffff;
+            cursor: pointer;
+            font-size: 13px;
         }
-
-        /* Baris tanggal & tombol refresh */
-        .date-row {
+        .info-box {
+            background-color: #fcf9f2;
+            margin: 15px;
+            padding: 15px;
+            border-radius: 15px;
+            border-left: 5px solid #4b6033;
             display: flex;
+            justify-content: space-between;
             flex-wrap: wrap;
-            gap: 8px;
-            align-items: flex-end;
         }
-        
-        .date-row .form-group {
-            flex: 1;
-            min-width: 130px;
-            margin-bottom: 0;
+        .info-item {
+            width: 48%;
+            margin-bottom: 10px;
         }
-
-        .btn-refresh {
-            background-color: var(--secondary-brown);
-            color: white;
-            border: none;
-            padding: 0 16px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
+        .info-item span {
+            display: block;
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+        }
+        .info-item strong {
+            font-size: 16px;
+            color: #222;
+        }
+        .form-group {
+            margin: 0 15px 12px 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .form-row {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            height: 41px;
-            flex-grow: 1;
+            gap: 10px;
+            margin: 0 15px 12px 15px;
         }
-
-        /* Tabel Data Responsive */
+        .form-row .form-group {
+            margin: 0;
+            flex: 1;
+        }
+        input[type="text"], input[type="date"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .btn-refresh {
+            background-color: #7d5a44;
+            color: white;
+            width: calc(100% - 30px);
+            margin: 0 15px 15px 15px;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
         .table-container {
-            margin: 16px 0;
-            padding: 0 8px;
+            margin: 0 15px;
+            max-height: 300px;
+            overflow-y: auto;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
+            text-align: center;
+            font-size: 13px;
         }
-
         th {
-            background-color: var(--card-bg);
-            padding: 10px 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #6c685e;
-            text-align: center;
+            background-color: #f5f0e6;
+            color: #555;
+            padding: 10px;
+            position: sticky;
+            top: 0;
         }
-
-        th:first-child { border-top-left-radius: 8px; border-bottom-left-radius: 8px; text-align: left; padding-left: 10px; }
-        th:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
-
         td {
-            padding: 10px 6px;
-            font-size: 0.85rem;
-            border-bottom: 1px solid #f1eee7;
-            color: var(--text-dark);
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        .input-jam {
+            width: 50px;
             text-align: center;
+            padding: 4px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
-        
-        td:first-child { text-align: left; padding-left: 10px; font-weight: 600; }
-
-        .input-jam-lembur {
-            width: 65px;
-            padding: 6px;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            text-align: center;
-            font-size: 0.9rem;
-            background: #ffffff;
-        }
-
-        .checkbox-libur {
-            width: 20px;
-            height: 20px;
-            accent-color: var(--primary-green);
-            cursor: pointer;
-            vertical-align: middle;
-        }
-
-        /* Area Menu Bawah Melayang */
-        .bottom-dock {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px;
-            background: rgba(251, 249, 244, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 10px 16px 16px 16px;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
-            z-index: 999;
+        .footer-actions {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            gap: 10px;
+            margin: 15px;
         }
-
-        /* Tombol Backup & Restore */
-        .backup-zone {
-            display: flex;
-            gap: 8px;
-        }
-
         .btn-action {
             flex: 1;
-            padding: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background: #fff;
             border-radius: 10px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            font-size: 13px;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            border: 1px solid var(--border-color);
-            background-color: #ffffff;
-            color: var(--text-dark);
         }
-
-        .btn-action:active {
-            background-color: #f1eee7;
-        }
-
-        /* Kotak Total */
         .total-box {
-            padding: 12px;
-            background-color: var(--primary-green);
+            background-color: #4b6033;
             color: white;
-            border-radius: 12px;
+            margin: 15px;
+            padding: 15px;
             text-align: center;
+            border-radius: 10px;
             font-weight: bold;
-            font-size: 1rem;
-            box-shadow: 0 2px 8px rgba(76, 100, 44, 0.3);
-        }
-
-        @media print {
-            body { background: white; padding: 0; }
-            .container { box-shadow: none; max-width: 100%; padding-bottom: 0; }
-            .btn-pdf, .btn-refresh, .checkbox-libur, .input-jam-lembur, .bottom-dock { border:none; }
-            .bottom-dock { position: static; transform: none; box-shadow: none; padding: 0; margin-top: 20px; }
-            .backup-zone { display: none; } /* Sembunyikan tombol backup saat cetak PDF */
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
 
-<div class="container" id="printArea">
-    <!-- Header Banner -->
-    <div class="header-banner">
-        <div class="header-title">
-            <svg viewBox="0 0 24 24"><path d="M17,8C15.34,8 14,9.34 14,11C14,12.66 15.34,14 17,14C18.66,14 20,12.66 20,11C20,9.34 18.66,8 17,8M17,12C16.45,12 16,11.55 16,11C16,10.45 16.45,10 17,10C17.55,10 18,10.45 18,11C18,11.55 17.55,12 17,12M14,2H4A2,2 0 0,0 2,4V20A2,2 0 0,0 4,22H20A2,2 0 0,0 22,20V10L14,2M20,20H4V4H13V9H18V10.18C17.68,10.08 17.35,10 17,10A3,3 0 0,0 14,13V14H12V16H14V20H16V16H18V20H20V20Z"/></svg>
-            Gaji Lembur Boyolali by : Kang Agus
-        </div>
-        <button class="btn-pdf" onclick="window.print()">
-            📄 Simpan PDF
-        </button>
+<div class="container">
+    <div class="header">
+        <h2>Gaji Lembur Boyolali by : Kang Agus</h2>
+        <button class="btn-pdf">📄 Simpan PDF</button>
     </div>
 
-    <!-- Info Card Ringkasan -->
-    <div class="info-card">
+    <div class="info-box">
         <div class="info-item">
-            <label>UMK 2026</label>
-            <div class="value">Rp2.537.949</div>
+            <span>UMK 2026</span>
+            <strong>Rp2.537.949</strong>
         </div>
         <div class="info-item">
-            <label>Periode Gaji</label>
-            <div class="value" style="font-size: 0.85rem;">26 ➔ 25 (bayar tgl 5)</div>
+            <span>Periode Gaji</span>
+            <strong>26 ➔ 25 (bayar tgl 5)</strong>
         </div>
-        <div class="info-item" style="grid-column: span 2;">
-            <label>Upah Per Jam (1/173)</label>
-            <div class="value" id="upahPerJamText">Rp14.670</div>
+        <div class="info-item" style="width: 100%;">
+            <span>Upah Per Jam (1/173)</span>
+            <strong>Rp14.670</strong>
         </div>
     </div>
 
-    <!-- Form Area -->
-    <div class="form-section">
+    <div class="form-group">
+        <label>💵 GAJI POKOK (RP)</label>
+        <input type="number" id="gaji-pokok" value="2537949">
+    </div>
+
+    <div class="form-row">
         <div class="form-group">
-            <label>💵 Gaji Pokok (RP)</label>
-            <input type="number" id="gajiPokok" value="2537949" oninput="updateUpahDanHitung()">
+            <label>📅 MULAI (26)</label>
+            <input type="date" id="start-date" value="2026-05-26">
         </div>
-
-        <div class="date-row">
-            <div class="form-group">
-                <label>📅 Mulai (26)</label>
-                <input type="date" id="tglMulai">
-            </div>
-            <div class="form-group">
-                <label>📅 Akhir (25)</label>
-                <input type="date" id="tglAkhir">
-            </div>
-            <button class="btn-refresh" onclick="generateTabelTanggal()">
-                🔄 Refresh
-            </button>
+        <div class="form-group">
+            <label>📅 AKHIR (25)</label>
+            <input type="date" id="end-date" value="2026-06-25">
         </div>
     </div>
 
-    <!-- Tabel Absensi -->
+    <button class="btn-refresh" id="btn-refresh">🔄 Refresh</button>
+
     <div class="table-container">
         <table>
             <thead>
                 <tr>
-                    <th style="width: 30%;">Tanggal</th>
-                    <th style="width: 25%;">Hari</th>
-                    <th style="width: 30%;">Jam Lembur</th>
-                    <th style="width: 15%;">Libur</th>
+                    <th>Tanggal</th>
+                    <th>Hari</th>
+                    <th>Jam Lembur</th>
+                    <th>Libur</th>
                 </tr>
             </thead>
-            <tbody id="tabelBody">
-                <!-- Data di-generate via JavaScript -->
-            </tbody>
+            <tbody id="table-body"></tbody>
         </table>
     </div>
 
-    <!-- Menu Dok Melayang Bawah -->
-    <div class="bottom-dock">
-        <!-- Tombol Backup Dan Restore File -->
-        <div class="backup-zone">
-            <button class="btn-action" onclick="eksporBackup()">
-                📥 Cadangkan (.txt)
-            </button>
-            <button class="btn-action" onclick="document.getElementById('fileInput').click()">
-                📤 Pulihkan Data
-            </button>
-            <input type="file" id="fileInput" accept=".txt" style="display: none;" onchange="imporBackup(event)">
-        </div>
-        
-        <!-- Output Total -->
-        <div class="total-box">
-            Total Uang Lembur: Rp <span id="totalUangLembur">0</span>
-        </div>
+    <div class="footer-actions">
+        <button class="btn-action">📥 Cadangkan (.txt)</button>
+        <button class="btn-action">📤 Pulihkan Data</button>
+    </div>
+
+    <div class="total-box" id="total-lembur-box">
+        Total Uang Lembur: Rp 0
     </div>
 </div>
 
 <script>
-    window.onload = function() {
-        const hariIni = new Date();
-        let tahun = hariIni.getFullYear();
-        let bulan = hariIni.getMonth();
+    // Jalankan otomatis saat halaman pertama kali dibuka
+    window.addEventListener('DOMContentLoaded', generateTable);
+    
+    // Jalankan saat tombol refresh diklik
+    document.getElementById('btn-refresh').addEventListener('click', generateTable);
 
-        let blnMulai = bulan - 1;
-        let thnMulai = tahun;
-        if(blnMulai < 0) { blnMulai = 11; thnMulai--; }
-
-        document.getElementById('tglMulai').value = `${thnMulai}-${String(blnMulai+1).padStart(2, '0')}-26`;
-        document.getElementById('tglAkhir').value = `${tahun}-${String(bulan+1).padStart(2, '0')}-25`;
-
-        if(localStorage.getItem('gajiPokokBoyolali')) {
-            document.getElementById('gajiPokok').value = localStorage.getItem('gajiPokokBoyolali');
-        }
-
-        generateTabelTanggal();
-    };
-
-    function updateUpahDanHitung() {
-        const gaji = parseFloat(document.getElementById('gajiPokok').value) || 0;
-        localStorage.setItem('gajiPokokBoyolali', gaji);
+    function generateTable() {
+        const startDateInput = document.getElementById('start-date').value;
+        const endDateInput = document.getElementById('end-date').value;
+        const tableBody = document.getElementById('table-body');
         
-        const upahPerJam = Math.round(gaji / 173);
-        document.getElementById('upahPerJamText').innerText = "Rp " + upahPerJam.toLocaleString('id-ID');
-        
-        hitungTotalLembur();
-    }
+        // Bersihkan tabel sebelum generate ulang
+        tableBody.innerHTML = '';
 
-    function generateTabelTanggal() {
-    const tglMulaiStr = document.getElementById('tglMulai').value;
-    const tglAkhirStr = document.getElementById('tglAkhir').value;
-
-    if (!tglMulaiStr || !tglAkhirStr) return;
-
-    // Simpan tanggal yang sedang aktif dipilih ke localStorage agar tidak hilang saat refresh
-    localStorage.setItem('tglMulaiBoyolali', tglMulaiStr);
-    localStorage.setItem('tglAkhirBoyolali', tglAkhirStr);
-
-    const start = new Date(tglMulaiStr);
-    const end = new Date(tglAkhirStr);
-    const tbody = document.getElementById('tabelBody');
-    tbody.innerHTML = "";
-
-    const namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-    const bulanSingkat = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
-
-    let loop = new Date(start);
-    while (loop <= end) {
-        const yyyy = loop.getFullYear();
-        const mm = String(loop.getMonth() + 1).padStart(2, '0');
-        const dd = String(loop.getDate()).padStart(2, '0');
-        const tglKey = `${yyyy}-${mm}-${dd}`;
-
-        const tampilanTanggal = `${loop.getDate()} ${bulanSingkat[loop.getMonth()]}`;
-        const hariStr = namaHari[loop.getDay()];
-
-        // Cek apakah hari Sabtu (6) atau Minggu (0)
-        const apakahAkhirPekan = (loop.getDay() === 0 || loop.getDay() === 6);
-        
-        // Mengambil data jam lama dari localStorage
-        const jamLama = localStorage.getItem('jam_' + tglKey) || 0;
-        
-        // Logika penentuan status checkbox libur berdasarkan data simpanan atau akhir pekan
-        let statusCentang = "";
-        const simpananLibur = localStorage.getItem('libur_' + tglKey);
-        
-        if (simpananLibur !== null) {
-            statusCentang = (simpananLibur === "true") ? "checked" : "";
-        } else {
-            if (apakahAkhirPekan) {
-                statusCentang = "checked";
-                localStorage.setItem('libur_' + tglKey, "true");
-            } else {
-                statusCentang = "";
-            }
-        }
-
-        // Buat element baris baru
-        const row = document.createElement('tr');
-        
-        // Gabungkan ke HTML dengan template literals
-        row.innerHTML = `
-            <td>${tampilanTanggal}</td>
-            <td>${hariStr}</td>
-            <td>
-                <input type="number" step="0.5" min="0" placeholder="0" class="input-jam" data-date="${tglKey}" value="${jamLama > 0 ? jamLama : ''}" oninput="hitungTotalLembur()">
-            </td>
-            <td>
-                <input type="checkbox" class="cek-libur" data-date="${tglKey}" ${statusCentang} onchange="hitungTotalLembur()">
-            </td>
-        `;
-
-        // Jika hari libur/akhir pekan, beri kelas tambahan untuk styling warna (jika diperlukan)
-        if (apakahAkhirPekan) {
-            row.classList.add('weekend');
-        }
-
-        tbody.appendChild(row);
-
-        // --- SOLUSI CRITICAL: Pindah ke tanggal berikutnya agar tidak stuck/freeze ---
-        loop.setDate(loop.getDate() + 1);
-    }
-
-    // Hitung ulang total lemburan setelah tabel dirender
-    if (typeof hitungTotalLembur === "function") {
-        hitungTotalLembur();
-    }
-}
-
-            
-<script>
-    window.onload = function() {
-        // 1. Cek apakah ada simpanan Gaji Pokok
-        if(localStorage.getItem('gajiPokokBoyolali')) {
-            document.getElementById('gajiPokok').value = localStorage.getItem('gajiPokokBoyolali');
-        }
-
-        // 2. Cek apakah ada simpanan tanggal Mulai dan Akhir di localStorage
-        const simpananTglMulai = localStorage.getItem('tglMulaiBoyolali');
-        const simpananTglAkhir = localStorage.getItem('tglAkhirBoyolali');
-
-        if (simpananTglMulai && simpananTglAkhir) {
-            // Jika ada, gunakan tanggal yang disimpan sebelumnya
-            document.getElementById('tglMulai').value = simpananTglMulai;
-            document.getElementById('tglAkhir').value = simpananTglAkhir;
-        } else {
-            // Jika tidak ada (pertama kali buka), buat tanggal default (26 bulan lalu s.d 25 bulan ini)
-            const hariIni = new Date();
-            let tahun = hariIni.getFullYear();
-            let bulan = hariIni.getMonth();
-
-            let blnMulai = bulan - 1;
-            let thnMulai = tahun;
-            if(blnMulai < 0) { blnMulai = 11; thnMulai--; }
-
-            const tglMulaiDefault = `${thnMulai}-${String(blnMulai+1).padStart(2, '0')}-26`;
-            const tglAkhirDefault = `${tahun}-${String(bulan+1).padStart(2, '0')}-25`;
-
-            document.getElementById('tglMulai').value = tglMulaiDefault;
-            document.getElementById('tglAkhir').value = tglAkhirDefault;
-            
-            // Simpan default ini ke localStorage
-            localStorage.setItem('tglMulaiBoyolali', tglMulaiDefault);
-            localStorage.setItem('tglAkhirBoyolali', tglAkhirDefault);
-        }
-
-        generateTabelTanggal();
-    };
-
-    function updateUpahDanHitung() {
-        const gaji = parseFloat(document.getElementById('gajiPokok').value) || 0;
-        localStorage.setItem('gajiPokokBoyolali', gaji);
-        
-        const upahPerJam = Math.round(gaji / 173);
-        document.getElementById('upahPerJamText').innerText = "Rp " + upahPerJam.toLocaleString('id-ID');
-        
-        hitungTotalLembur();
-    }
-
-    function generateTabelTanggal() {
-        const tglMulaiStr = document.getElementById('tglMulai').value;
-        const tglAkhirStr = document.getElementById('tglAkhir').value;
-
-        if(!tglMulaiStr || !tglAkhirStr) return;
-
-        // Simpan tanggal yang sedang aktif dipilih ke localStorage agar tidak hilang saat refresh
-        localStorage.setItem('tglMulaiBoyolali', tglMulaiStr);
-        localStorage.setItem('tglAkhirBoyolali', tglAkhirStr);
-
-        const start = new Date(tglMulaiStr);
-        const end = new Date(tglAkhirStr);
-        const tbody = document.getElementById('tabelBody');
-        tbody.innerHTML = "";
-
-        const namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-        const bulanSingkat = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
-
-        let loop = new Date(start);
-        while (loop <= end) {
-            const yyyy = loop.getFullYear();
-            const mm = String(loop.getMonth() + 1).padStart(2, '0');
-            const dd = String(loop.getDate()).padStart(2, '0');
-            const tglKey = `${yyyy}-${mm}-${dd}`;
-            
-            const tampilanTanggal = `${loop.getDate()} ${bulanSingkat[loop.getMonth()]}`;
-            const hariStr = namaHari[loop.getDay()];
-            
-            const jamLama = localStorage.getItem('jam_' + tglKey) || 0;
-
-            let statusCentang = '';
-            const simpananLibur = localStorage.getItem('libur_' + tglKey);
-
-            if (simpananLibur !== null) {
-                statusCentang = (simpananLibur === 'true') ? 'checked' : '';
-            } else {
-                const apakahAkhirPekan = (loop.getDay() === 0 || loop.getDay() === 6);
-                if (apakahAkhirPekan) {
-                    statusCentang = 'checked';
-                    localStorage.setItem('libur_' + tglKey, 'true');
-                } else {
-                    statusCentang = '';
-                    localStorage.setItem('libur_' + tglKey, 'false');
-                }
-            }
-
-            let row = `<tr>
-                <td>${tampilanTanggal}</td>
-                <td>${hariStr}</td>
-                <td>
-                    <input type="number" class="input-jam-lembur" data-tgl="${tglKey}" value="${jamLama}" step="0.5" inputmode="decimal" 
-                           oninput="hitungTotalLembur()" 
-                           onfocus="if(this.value=='0') this.value='';" 
-                           onblur="if(this.value=='') { this.value='0'; hitungTotalLembur(); }">
-                </td>
-                <td>
-                    <input type="checkbox" class="checkbox-libur" data-tgl="${tglKey}" ${statusCentang} onchange="hitungTotalLembur()">
-                </td>
-            </tr>`;
-            
-            tbody.innerHTML += row;
-            loop.setDate(loop.getDate() + 1);
-        }
-
-        updateUpahDanHitung();
-    }
-
-    function hitungTotalLembur() {
-        const gaji = parseFloat(document.getElementById('gajiPokok').value) || 0;
-        const upahPerJam = gaji / 173;
-        let totalUang = 0;
-
-        document.querySelectorAll('.input-jam-lembur').forEach((el, index) => {
-            const tglKey = el.getAttribute('data-tgl');
-            const jam = parseFloat(el.value) || 0;
-            const isLibur = document.querySelectorAll('.checkbox-libur')[index].checked;
-
-            localStorage.setItem('jam_' + tglKey, jam);
-            localStorage.setItem('libur_' + tglKey, isLibur);
-
-            if (jam > 0) {
-                let konversiJam = 0;
-                if (!isLibur) {
-                    if (jam <= 1) {
-                        konversiJam = jam * 1.5;
-                    } else {
-                        konversiJam = 1.5 + ((jam - 1) * 2);
-                    }
-                } else {
-                    if (jam <= 8) {
-                        konversiJam = jam * 2;
-                    } else if (jam === 9) {
-                        konversiJam = (8 * 2) + 3;
-                    } else {
-                        konversiJam = (8 * 2) + 3 + ((jam - 9) * 4);
-                    }
-                }
-                totalUang += (konversiJam * upahPerJam);
-            }
-        });
-
-        document.getElementById('totalUangLembur').innerText = Math.round(totalUang).toLocaleString('id-ID');
-    }
-
-    function eksporBackup() {
-        let dataBackup = {};
-        for (let i = 0; i < localStorage.length; i++) {
-            let key = localStorage.key(i);
-            if (key.startsWith('jam_') || key.startsWith('libur_') || key === 'gajiPokokBoyolali') {
-                dataBackup[key] = localStorage.getItem(key);
-            }
-        }
-        
-        if (Object.keys(dataBackup).length === 0) {
-            alert("Belum ada data lembur yang diisi untuk dicadangkan.");
+        if (!startDateInput || !endDateInput) {
+            alert('Mohon tentukan tanggal mulai dan akhir!');
             return;
         }
 
-        const jsonString = JSON.stringify(dataBackup, null, 2);
-        const blob = new Blob([jsonString], { type: "text/plain" });
-        const link = document.createElement("a");
+        let start = new Date(startDateInput);
+        let end = new Date(endDateInput);
+
+        if (start > end) {
+            alert('Tanggal mulai tidak boleh melewati tanggal akhir!');
+            return;
+        }
+
+        const opsiHari = { weekday: 'long' };
         
-        const tglSkrg = new Date().toISOString().split('T')[0];
-        link.download = `cadangan_lembur_${tglSkrg}.txt`;
-        link.href = window.URL.createObjectURL(blob);
-        link.click();
-        window.URL.revokeObjectURL(link.href);
+        // Loop tanggal
+        while (start <= end) {
+            const namaHari = start.toLocaleDateString('id-ID', opsiHari);
+            
+            // Format tampilan tanggal DD/MM/YYYY
+            const tgl = String(start.getDate()).padStart(2, '0');
+            const bln = String(start.getMonth() + 1).padStart(2, '0');
+            const thn = start.getFullYear();
+            const formatTglTampil = `${tgl}/${bln}/${thn}`;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${formatTglTampil}</td>
+                <td>${namaHari}</td>
+                <td>
+                    <input type="number" step="0.5" min="0" class="input-jam" placeholder="0" oninput="hitungTotalLembur()">
+                </td>
+                <td>
+                    <input type="checkbox" class="check-libur" onchange="hitungTotalLembur()">
+                </td>
+            `;
+            tableBody.appendChild(row);
+
+            // Maju ke hari berikutnya
+            start.setDate(start.getDate() + 1);
+        }
+        
+        // Reset hitungan awal
+        hitungTotalLembur();
     }
 
-    function imporBackup(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                const dataDipulihkan = JSON.parse(e.target.result);
-                for (let key in dataDipulihkan) {
-                    localStorage.setItem(key, dataDipulihkan[key]);
+    function hitungTotalLembur() {
+        const upahPerJam = 14670; // Berdasarkan UMK 2026 (1/173)
+        let totalUangLembur = 0;
+        
+        const rows = document.querySelectorAll('#table-body tr');
+        
+        rows.forEach(row => {
+            const jamInput = row.querySelector('.input-jam').value;
+            const isLibur = row.querySelector('.check-libur').checked;
+            
+            let jamLembur = parseFloat(jamInput) || 0;
+            
+            if (jamLembur > 0) {
+                let upahHariIni = 0;
+                
+                if (!isLibur) {
+                    // Kerja Biasa: Jam pertama x1.5, jam berikutnya x2
+                    if (jamLembur <= 1) {
+                        upahHariIni = jamLembur * 1.5 * upahPerJam;
+                    } else {
+                        upahHariIni = (1 * 1.5 * upahPerJam) + ((jamLembur - 1) * 2 * upahPerJam);
+                    }
+                } else {
+                    // Hari Libur Resmi: 8 jam pertama x2, jam ke-9 x3, jam ke-10++ x4
+                    if (jamLembur <= 8) {
+                        upahHariIni = jamLembur * 2 * upahPerJam;
+                    } else if (jamLembur === 9) {
+                        upahHariIni = (8 * 2 * upahPerJam) + (1 * 3 * upahPerJam);
+                    } else {
+                        upahHariIni = (8 * 2 * upahPerJam) + (1 * 3 * upahPerJam) + ((jamLembur - 9) * 4 * upahPerJam);
+                    }
                 }
-                alert("Data berhasil dipulihkan! Halaman akan memuat ulang data Anda.");
-                location.reload();
-            } catch (err) {
-                alert("File tidak valid atau rusak. Pastikan Anda memasukkan file cadangan .txt yang benar.");
+                totalUangLembur += upahHariIni;
             }
-        };
-        reader.readAsText(file);
+        });
+
+        // Tampilkan hasil akhir dengan format mata uang rupiah
+        document.getElementById('total-lembur-box').innerText = `Total Uang Lembur: Rp ${Math.round(totalUangLembur).toLocaleString('id-ID')}`;
     }
 </script>
 
 </body>
 </html>
+
