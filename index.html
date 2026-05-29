@@ -252,9 +252,10 @@
 
         const opsiHari = { weekday: 'long' };
         
-        // Loop tanggal
+                // Loop tanggal
         while (start <= end) {
             const namaHari = start.toLocaleDateString('id-ID', opsiHari);
+            const isSabtuMinggu = (namaHari === 'Sabtu' || namaHari === 'Minggu');
             
             // Format tampilan tanggal DD/MM/YYYY
             const tgl = String(start.getDate()).padStart(2, '0');
@@ -270,13 +271,13 @@
                     <input type="number" step="0.5" min="0" class="input-jam" placeholder="0" oninput="hitungTotalLembur()">
                 </td>
                 <td>
-                    <input type="checkbox" class="check-libur" onchange="hitungTotalLembur()">
+                    <input type="checkbox" class="check-libur" ${isSabtuMinggu ? 'checked' : ''} onchange="hitungTotalLembur()">
                 </td>
             `;
             tableBody.appendChild(row);
 
             // Maju ke hari berikutnya
-            start.setDate(start.getDate() + 1);
+            start.setDate(start.getDate() + 1)
         }
         
         // Reset hitungan awal
